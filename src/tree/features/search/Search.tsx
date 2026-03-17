@@ -79,6 +79,12 @@ export const Search = () => {
 
     const focusClass = focus ? 'focus' : '';
 
+    const onClear = () => {
+        clearFilter();
+        setValue('');
+        inputRef!.focus();
+    };
+
     return (
         <div className={`search-input ${focusClass}`}>
             <i className={'iconfont icon-search'} />
@@ -94,11 +100,20 @@ export const Search = () => {
                 onFocus={() => setFocus(true)}
                 onBlur={() => setFocus(false)}
             />
-            {focus ? null : (
-                <span className={'search-shortcut-info'}>
+            <span className={'search-suffix'}>
+                <i
+                    className={'iconfont icon-roundclosefill search-clear'}
+                    style={{ visibility: value ? 'visible' : 'hidden' }}
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={onClear}
+                />
+                <span
+                    className={'search-shortcut-info'}
+                    style={{ visibility: value || focus ? 'hidden' : 'visible' }}
+                >
                     {getDisplayName(ShortcutMap.search.key)}
                 </span>
-            )}
+            </span>
         </div>
     );
 };

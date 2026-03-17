@@ -2,6 +2,7 @@
 
 .search-input {
     display: flex;
+    align-items: center;
     height: 30px;
     padding: 0 8px;
     line-height: 30px;
@@ -41,7 +42,27 @@
         border-color: var(--search-input-border-focus-color);
     }
 
-    .search-shortcut-info {
-        color: var(--search-input-placeholder-color);
+    .search-suffix {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        .search-clear {
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--search-input-placeholder-color);
+            transition: color 0.2s;
+
+            &:hover {
+                color: var(--search-input-font-color);
+            }
+        }
+
+        .search-shortcut-info {
+            position: absolute;
+            right: 0;
+            color: var(--search-input-placeholder-color);
+            white-space: nowrap;
+        }
     }
 }
