@@ -9,18 +9,19 @@ A Chrome/Edge browser extension (Manifest V3) that visualizes and manages open t
 ## Commands
 
 ```bash
-pnpm start          # Dev server with HMR (Express + Webpack, Chrome target)
+pnpm start          # Dev server with HMR (Vite, Chrome target)
+pnpm start:edge     # Dev server (Edge target)
 pnpm build          # Production build (Chrome)
 pnpm build-edge     # Production build (Edge)
 pnpm lint           # ESLint + Stylelint
 pnpm lint:es        # ESLint only (.ts/.tsx/.js)
 pnpm lint:style     # Stylelint only (.css/.less/.scss)
 pnpm test-ext       # Jest unit tests
-pnpm clean          # Remove build artifacts (extension/ dir)
+pnpm clean          # Remove build artifacts (dist/ dir)
 pnpm package        # Package for distribution
 ```
 
-Requires Node v18.12.1 (see `.nvmrc`). Package manager is **pnpm** (enforced).
+Requires Node v22+ (see `.nvmrc`). Package manager is **pnpm** (enforced).
 
 ## Architecture
 
@@ -34,7 +35,7 @@ Requires Node v18.12.1 (see `.nvmrc`). Package manager is **pnpm** (enforced).
 | **Options** | `src/options/index.tsx` | Settings page |
 | **Import** | `src/import/index.tsx` | Data import utility |
 
-Content scripts are auto-discovered from `src/contents/*/index.{ts,tsx}`.
+Content scripts are declared in `src/manifest.ts` (currently commented out).
 
 ### Data flow
 
@@ -48,7 +49,7 @@ Content scripts are auto-discovered from `src/contents/*/index.{ts,tsx}`.
 
 - **Fancytree (jQuery)** wraps the tree UI — React wrapper at `src/tree/features/tab-master-tree/`
 - **Dexie/IndexedDB** for persistence instead of Redux — tree snapshots need storage anyway
-- **Webpack 5** (not Vite) — required for extension multi-page setup, manifest generation, HMR in extension context
+- **Vite 8** with `@crxjs/vite-plugin` for extension bundling, manifest generation, and HMR
 - **Ant Design 5** for UI components
 - **Firebase** for user auth and data sync
 
@@ -60,24 +61,22 @@ Features are organized under `src/tree/features/` — each is self-contained:
 
 ### Build system
 
-Custom Webpack pipeline in `server/`:
-- `server/configs/webpack.common.ts` — shared config (entries, loaders, plugins)
-- `server/configs/webpack.dev.ts` — HMR + source maps
-- `server/configs/webpack.prod.ts` — SWC minification, CSS optimization, bundle analyzer
-- `server/utils/entry.ts` — dynamic entry point generation
-- `server/generateManifest.ts` — manifest generation from `src/manifest.ts`
+Vite 8 + CRXJS plugin:
+- `vite.config.ts` — single build config (replaces old `server/` webpack pipeline)
+- `src/manifest.ts` — manifest definition consumed by CRXJS (uses source file paths)
+- HTML entry points live alongside their TSX entries (e.g., `src/tree/tree.html`)
 
 Global defines available in code: `__ENV__`, `__VERSION__`, `__TARGET__`.
 
 ### Path alias
 
-`@/*` maps to `src/*` (configured in tsconfig.json and webpack).
+`@/*` maps to `src/*` (configured in tsconfig.json and vite.config.ts).
 
 ## Code style
 
 - TypeScript strict mode with decorators enabled
 - JSX transform: `react-jsx` (no `import React` needed)
-- jQuery is globally provided via webpack `ProvidePlugin`
+- jQuery is set up globally via `src/jquery-global.ts` (imported at top of entry points that need it)
 - Pre-commit hook runs lint-staged (ESLint, stylelint, prettier, format-imports)
 - Prettier config: `@yutengjing/prettier-config`
 - ESLint config: `@yutengjing/eslint-config-react`

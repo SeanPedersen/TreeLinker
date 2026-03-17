@@ -1,13 +1,12 @@
-import type { Manifest } from 'webextension-polyfill';
+import type { ManifestV3Export } from '@crxjs/vite-plugin';
 
 import pkg from '../package.json';
 
-// command key enums
 export const commandKeyMap = {
     openLinkMap: 'openLinkMap',
 };
 
-const manifest: Manifest.WebExtensionManifest & { side_panel?: { default_path: string } } = {
+const manifest: ManifestV3Export = {
     name: pkg.displayName,
     version: pkg.version,
     description: '__MSG_extDesc__',
@@ -22,9 +21,6 @@ const manifest: Manifest.WebExtensionManifest & { side_panel?: { default_path: s
         'sidePanel',
         'favicon',
     ],
-    content_security_policy: {
-        extension_pages: "script-src 'self' http://localhost; object-src 'self';",
-    },
     web_accessible_resources: [
         {
             matches: ['<all_urls>'],
@@ -32,16 +28,9 @@ const manifest: Manifest.WebExtensionManifest & { side_panel?: { default_path: s
         },
     ],
     background: {
-        service_worker: 'js/background.js',
+        service_worker: 'src/background/index.ts',
     },
     default_locale: 'en',
-    // content_scripts: [
-    //     {
-    //         matches: ['https://github.com/*'],
-    //         css: ['css/all.css'],
-    //         js: ['js/all.js', ...(__DEV__ ? [] : ['js/all.js'])],
-    //     },
-    // ],
     commands: {
         [commandKeyMap.openLinkMap]: {
             suggested_key: {
@@ -52,7 +41,6 @@ const manifest: Manifest.WebExtensionManifest & { side_panel?: { default_path: s
         },
     },
     action: {
-        // default_popup: 'popup.html',
         default_icon: {
             '16': 'icons/x16.png',
             '32': 'icons/x32.png',
@@ -60,13 +48,8 @@ const manifest: Manifest.WebExtensionManifest & { side_panel?: { default_path: s
             '128': 'icons/x128.png',
         },
     },
-    // 实现options页面后使用
-    // options_ui: {
-    //     page: 'options.html',
-    //     open_in_tab: true,
-    // },
     side_panel: {
-        default_path: 'tree.html',
+        default_path: 'src/tree/tree.html',
     },
     icons: {
         '16': 'icons/x16.png',

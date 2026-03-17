@@ -1,33 +1,24 @@
 {
     "compilerOptions": {
-        /* Basic Options */
         "jsx": "react-jsx",
         "isolatedModules": true,
-        /* Strict Type-Checking Options */
         "strict": true,
-
-        /* Module Resolution Options */
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "esModuleInterop": true,
         "resolveJsonModule": true,
-
-        /* Experimental Options */
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-
-        /* Advanced Options */
         "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true,
-
-        // 下面这些选项对 babel 编译 TypeScript 没有作用但是可以让 VSCode 等编辑器正确提示错误
         "target": "ES2022",
         "module": "ESNext",
         "baseUrl": "./",
-        "types": ["jquery", "webext-bridge", "jquery.fancytree", "jest"],
+        "types": ["jquery", "webext-bridge", "jquery.fancytree", "jest", "vite/client"],
         "typeRoots": ["node_modules/@types", "src/typings"],
         "paths": {
             "@/*": ["src/*"]
         }
     },
-    "exclude": ["manifest.ts"]
+    "include": ["src/**/*", "vite.config.ts"],
+    "exclude": ["node_modules", "dist"]
 }
