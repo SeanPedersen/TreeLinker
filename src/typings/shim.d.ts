@@ -5,6 +5,24 @@ import { TabOutliner } from '../import/parse-tab-outliner';
 import { ExportJsonData } from '../tree/features/settings/Settings';
 import { TreeData, TreeNode } from '../tree/features/tab-master-tree/nodes/nodes';
 
+declare global {
+    namespace chrome.sidePanel {
+        interface OpenOptions {
+            windowId?: number;
+            tabId?: number;
+        }
+        function open(options: OpenOptions): Promise<void>;
+        function setOptions(options: {
+            path?: string;
+            enabled?: boolean;
+            tabId?: number;
+        }): Promise<void>;
+        function setPanelBehavior(behavior: {
+            openPanelOnActionClick?: boolean;
+        }): Promise<void>;
+    }
+}
+
 declare module '@garinz/webext-bridge' {
     export interface ProtocolMap {
         // define message protocol types

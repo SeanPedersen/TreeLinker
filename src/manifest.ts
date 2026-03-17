@@ -7,7 +7,7 @@ export const commandKeyMap = {
     openLinkMap: 'openLinkMap',
 };
 
-const manifest: Manifest.WebExtensionManifest = {
+const manifest: Manifest.WebExtensionManifest & { side_panel?: { default_path: string } } = {
     name: pkg.displayName,
     version: pkg.version,
     description: '__MSG_extDesc__',
@@ -19,7 +19,7 @@ const manifest: Manifest.WebExtensionManifest = {
         'activeTab',
         'windows',
         'downloads',
-        'system.display',
+        'sidePanel',
         'favicon',
     ],
     content_security_policy: {
@@ -65,6 +65,9 @@ const manifest: Manifest.WebExtensionManifest = {
     //     page: 'options.html',
     //     open_in_tab: true,
     // },
+    side_panel: {
+        default_path: 'tree.html',
+    },
     icons: {
         '16': 'icons/x16.png',
         '32': 'icons/x32.png',

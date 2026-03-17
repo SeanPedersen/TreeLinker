@@ -4,12 +4,7 @@ import browser from 'webextension-polyfill';
 
 import { setLogLevel } from '../config/log-config';
 import type { LocalStorageImportData } from '../import/App';
-import {
-    getExtPageInfo,
-    removeExtPageInfo,
-    setExtPageInfo,
-    setPrevFocusWindowId,
-} from '../storage/basic';
+import { setPrevFocusWindowId } from '../storage/basic';
 import { TabMasterDB } from '../storage/idb';
 import { setIsNewUser, setIsUpdate } from '../storage/user-journey';
 import type { ExportJsonData } from '../tree/features/settings/Settings';
@@ -29,7 +24,6 @@ try {
         log.debug('Extension installed', details.reason);
         log.debug(__ENV__);
         log.debug(__TARGET__);
-        // 清除localStorage中的extPageInfo
         if (details.reason === 'install') {
             await setIsNewUser(true);
         }
@@ -38,65 +32,17 @@ try {
             details.previousVersion !== '1.0.10' &&
             browser.runtime.getManifest().version === '1.0.10'
         ) {
-            // chrome.runtime.getManifest().version
             await setIsUpdate(true);
         }
         const db = new TabMasterDB();
         await db.initSetting();
         await syncTabsCountInBadge();
-        await removeExtPageInfo();
     });
 
-    async function openNewExtWindow() {
-        const displayInfos = await chrome.system.display.getInfo();
-        const primaryDisplayInfo = displayInfos.find((item) => item.isPrimary);
-        const width = primaryDisplayInfo ? Math.floor(primaryDisplayInfo.workArea.width / 5) : 895;
-        const height = primaryDisplayInfo ? primaryDisplayInfo.workArea.height : 1050;
-        const left = primaryDisplayInfo ? primaryDisplayInfo.workArea.width - width : 0;
-        const extWindow = await browser.windows.create({
-            url: 'tree.html',
-            type: 'popup',
-            width,
-            height,
-            top: 0,
-            left,
-            focused: true,
-        });
-        const extTab = extWindow.tabs![0];
-        await setExtPageInfo({
-            windowId: extTab.windowId!,
-            tabId: extTab.id!,
-        });
-    }
-
-    onMessage('tree-ready', async (msg) => {
-        const { windowId, tabId } = msg.data;
-        await setExtPageInfo({ windowId, tabId });
-    });
-
-    const focusOrCreateExtWindow = async () => {
-        const extIdPair = await getExtPageInfo();
-        if (extIdPair == null) {
-            await openNewExtWindow();
-        } else {
-            // 页面已打开，则窗口focused
-            try {
-                await browser.windows.update(extIdPair.windowId, { focused: true });
-            } catch {
-                // 防止localStorage数据未清除，但是页面已经关闭的情况
-                await openNewExtWindow();
-            }
-        }
-    };
-
-    /**
-     * 点击插件按钮：打开一个TreeView页面
-     * 将extIdPair更新到localStorage中
-     * This Method Wouldn't Fire if popup has benn set
-     */
+    // Clicking the extension icon toggles the side panel
     browser.action.onClicked.addListener((tab) => {
         setPrevFocusWindowId(tab.windowId!);
-        focusOrCreateExtWindow();
+        chrome.sidePanel.open({ windowId: tab.windowId! });
     });
 
     // #### 浏览器Fire的事件
@@ -175,8 +121,6 @@ try {
      */
     browser.windows.onRemoved.addListener(async (windowId) => {
         log.debug('[bg]: window remove!');
-        const extIdPair = await getExtPageInfo();
-        if (extIdPair && extIdPair.windowId === windowId) await removeExtPageInfo();
         sendMessageToExt('remove-window', { windowId });
     });
 
@@ -186,17 +130,11 @@ try {
     });
 
     const createImportPage = async (importData: LocalStorageImportData) => {
-        const displayInfos = await chrome.system.display.getInfo();
-        const primaryDisplayInfo = displayInfos.find((item) => item.isPrimary);
-        const width = primaryDisplayInfo ? Math.floor(primaryDisplayInfo.workArea.width / 5) : 895;
-        const height = primaryDisplayInfo ? primaryDisplayInfo.workArea.height : 1050;
         await browser.windows.create({
             url: 'import.html',
             type: 'popup',
-            width,
-            height,
-            left: 0,
-            top: 0,
+            width: 480,
+            height: 720,
             focused: true,
         });
         await browser.storage.local.set({ importData });
@@ -212,7 +150,10 @@ try {
 
     browser.commands.onCommand.addListener(async (command) => {
         if (command === 'openLinkMap') {
-            await focusOrCreateExtWindow();
+            const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
+            if (activeTab?.windowId) {
+                chrome.sidePanel.open({ windowId: activeTab.windowId });
+            }
         }
     });
 } catch (error) {

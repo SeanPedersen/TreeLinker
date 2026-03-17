@@ -1,4 +1,3 @@
-import { onMessage } from '@garinz/webext-bridge';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { SettingContext } from '../../context';
@@ -10,47 +9,26 @@ import type { TreeData, TreeNode } from './nodes/nodes';
 
 import './style.less';
 
+const messageHandlers: Record<string, (tmTree: FancyTabMasterTree, data: any) => void> = {
+    'add-tab': (tmTree, data) => tmTree.createTab(data),
+    'remove-tab': (tmTree, data) => tmTree.removeTab(data.tabId),
+    'remove-window': (tmTree, data) => tmTree.removeWindow(data.windowId),
+    'move-tab': (tmTree, data) => tmTree.moveTab(data.windowId, data.tabId, data.fromIndex, data.toIndex),
+    'update-tab': (tmTree, data) => tmTree.updateTab(data),
+    'activated-tab': (tmTree, data) => tmTree.activeTab(data.windowId, data.tabId),
+    'attach-tab': (tmTree, data) => tmTree.attachTab(data.windowId, data.tabId, data.newIndex),
+    'detach-tab': (tmTree, data) => tmTree.detachTab(data.tabId),
+    'window-focus': (tmTree, data) => tmTree.windowFocus(data.windowId),
+    'add-window': (tmTree, data) => tmTree.createWindow(data),
+    'replace-tab': (tmTree, data) => tmTree.replaceTab(data.addedTabId, data.removedTabId),
+};
+
 const registerBrowserEventHandlers = (tmTree: FancyTabMasterTree) => {
-    onMessage('add-tab', (msg) => {
-        tmTree.createTab(msg.data);
-    });
-    onMessage('remove-tab', (msg) => {
-        const { tabId } = msg.data;
-        tmTree.removeTab(tabId);
-    });
-    onMessage('remove-window', (msg) => {
-        tmTree.removeWindow(msg.data.windowId);
-    });
-    onMessage('move-tab', async (msg) => {
-        const { windowId, fromIndex, toIndex, tabId } = msg.data;
-        // 2. 移动元素
-        tmTree.moveTab(windowId, tabId, fromIndex, toIndex);
-    });
-    onMessage('update-tab', (msg) => {
-        tmTree.updateTab(msg.data);
-    });
-    onMessage('activated-tab', (msg) => {
-        const { windowId, tabId } = msg.data;
-        tmTree.activeTab(windowId, tabId);
-    });
-    onMessage('attach-tab', (msg) => {
-        const { tabId, windowId, newIndex } = msg.data;
-        tmTree.attachTab(windowId, tabId, newIndex);
-    });
-    onMessage('detach-tab', (msg) => {
-        const { tabId } = msg.data;
-        tmTree.detachTab(tabId);
-    });
-    onMessage('window-focus', (msg) => {
-        const { windowId } = msg.data;
-        tmTree.windowFocus(windowId);
-    });
-    onMessage('add-window', (msg) => {
-        tmTree.createWindow(msg.data);
-    });
-    onMessage('replace-tab', (msg) => {
-        const { addedTabId, removedTabId } = msg.data;
-        tmTree.replaceTab(addedTabId, removedTabId);
+    chrome.runtime.onMessage.addListener((message) => {
+        const handler = messageHandlers[message.type];
+        if (handler) {
+            handler(tmTree, message.data);
+        }
     });
     registerShortcuts(tmTree);
 };
