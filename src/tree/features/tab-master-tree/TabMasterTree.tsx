@@ -25,6 +25,7 @@ const messageHandlers: Record<string, (tmTree: FancyTabMasterTree, data: any) =>
 
 const registerBrowserEventHandlers = (tmTree: FancyTabMasterTree) => {
     chrome.runtime.onMessage.addListener((message) => {
+        if (!message?.type || !message?.data) return;
         const handler = messageHandlers[message.type];
         if (handler) {
             handler(tmTree, message.data);

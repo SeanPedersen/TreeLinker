@@ -1,0 +1,2 @@
+patchedDependencies:
+  '@garinz/webext-bridge@5.0.6': patches/@garinz__webext-bridge@5.0.6.patch

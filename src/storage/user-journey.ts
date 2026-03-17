@@ -1,5 +1,7 @@
 import { isEmpty } from 'lodash';
-import { storage } from 'webextension-polyfill';
+import browser from 'webextension-polyfill';
+
+const { storage } = browser;
 
 const IS_NEW_USER = 'isNewUser';
 

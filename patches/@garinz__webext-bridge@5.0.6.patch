@@ -1,0 +1,13 @@
+diff --git a/dist/index.mjs b/dist/index.mjs
+index a9f806b8063706ef6a7741eb388b19edcf883bdd..869be006f89bb22de41e70ad3455b3b72856660a 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -128,7 +128,7 @@ function initIntercoms() {
+   }
+   if (context === "background") {
+     browser2.runtime.onConnect.addListener((incomingPort) => {
+-      let portId = incomingPort.name || `content-script@${incomingPort.sender.tab.id}`;
++      let portId = incomingPort.name || `content-script@${incomingPort.sender?.tab?.id}`;
+       const portFrame = incomingPort.sender.frameId;
+       if (portFrame)
+         portId = `${portId}.${portFrame}`;
