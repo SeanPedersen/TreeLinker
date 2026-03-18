@@ -1,14 +1,14 @@
 import { sendMessage } from '@garinz/webext-bridge';
-import { Button, message, Modal, Select, Upload } from 'antd';
+import { Button, message, Modal, Select, Slider, Upload } from 'antd';
 import type { RcFile } from 'antd/es/upload/interface';
 import log from 'loglevel';
 import { useContext, useState } from 'react';
 import browser from 'webextension-polyfill';
 
-import type { ThemeType } from '../../../storage/idb';
+import type { FontFamily, ThemeType } from '../../../storage/idb';
+import { FONT_SIZE_MAX, FONT_SIZE_MIN } from '../../../storage/idb';
 import { downloadJsonWithExtensionAPI, getFormattedData } from '../../../utils';
 import { SettingContext } from '../../context';
-import Feedback from '../feedback/Feedback';
 import store from '../store';
 import type { TreeData, TreeNode } from '../tab-master-tree/nodes/nodes';
 
@@ -76,6 +76,16 @@ const Settings = () => {
         setSetting({ ...setting, theme: value });
     };
 
+    const handleFontFamilyChange = async (value: FontFamily) => {
+        await store.db.updateSettingPartial({ fontFamily: value });
+        setSetting({ ...setting, fontFamily: value });
+    };
+
+    const handleFontSizeChange = async (value: number) => {
+        await store.db.updateSettingPartial({ fontSize: value });
+        setSetting({ ...setting, fontSize: value });
+    };
+
     return (
         <div className="settings-container">
             <div>
@@ -115,6 +125,36 @@ const Settings = () => {
                             ]}
                         />
                     </div>
+                    <div className="settings-item">
+                        <span className="settings-item-desc">
+                            {browser.i18n.getMessage('fontFamily')}:
+                        </span>
+                        <Select
+                            value={setting.fontFamily}
+                            style={{ width: 140 }}
+                            size={'small'}
+                            onChange={handleFontFamilyChange}
+                            popupClassName={'settings-select-popup'}
+                            options={[
+                                { value: 'system', label: browser.i18n.getMessage('fontSystem') },
+                                { value: 'serif', label: browser.i18n.getMessage('fontSerif') },
+                                { value: 'monospace', label: browser.i18n.getMessage('fontMono') },
+                            ]}
+                        />
+                    </div>
+                    <div className="settings-item">
+                        <span className="settings-item-desc">
+                            {browser.i18n.getMessage('fontSize')}:
+                        </span>
+                        <Slider
+                            className="font-size-slider"
+                            min={FONT_SIZE_MIN}
+                            max={FONT_SIZE_MAX}
+                            value={setting.fontSize}
+                            onChange={handleFontSizeChange}
+                            tooltip={{ formatter: (value) => `${value}px` }}
+                        />
+                    </div>
                 </div>
                 <div className={'setting-section'}>
                     <div className="setting-head divider">
@@ -148,17 +188,6 @@ const Settings = () => {
                                 {browser.i18n.getMessage('importTabOutlinerData')}
                             </Button>
                         </Upload>
-                    </div>
-                </div>
-                <div className={'setting-section'}>
-                    <div className="setting-head divider">
-                        {browser.i18n.getMessage('feedback')}
-                    </div>
-                    <div className="settings-item">
-                        <span className="settings-item-desc">
-                            {browser.i18n.getMessage('feedbackDesc')}:
-                        </span>
-                        <Feedback />
                     </div>
                 </div>
             </Modal>

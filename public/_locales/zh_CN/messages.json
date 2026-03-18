@@ -134,6 +134,21 @@
     "themeDark": {
         "message": "黑暗模式"
     },
+    "fontFamily": {
+        "message": "字体"
+    },
+    "fontSystem": {
+        "message": "系统默认"
+    },
+    "fontSerif": {
+        "message": "衬线体"
+    },
+    "fontMono": {
+        "message": "等宽字体"
+    },
+    "fontSize": {
+        "message": "字号"
+    },
     "commandTriggerLinkMap": {
         "message": "打开Link Map"
     },

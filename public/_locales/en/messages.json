@@ -134,6 +134,21 @@
     "themeDark": {
         "message": "Dark"
     },
+    "fontFamily": {
+        "message": "Font"
+    },
+    "fontSystem": {
+        "message": "System"
+    },
+    "fontSerif": {
+        "message": "Serif"
+    },
+    "fontMono": {
+        "message": "Monospace"
+    },
+    "fontSize": {
+        "message": "Font Size"
+    },
     "commandTriggerLinkMap": {
         "message": "Open Link Map"
     },

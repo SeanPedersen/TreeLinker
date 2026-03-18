@@ -3,10 +3,9 @@ import { merge } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import browser from 'webextension-polyfill';
 
-import { DEFAULT_SETTING } from '../../storage/idb';
+import { DEFAULT_SETTING, FONT_FAMILY_VALUES } from '../../storage/idb';
 import { getIsNewUser, getIsUpdate, setIsNewUser, setIsUpdate } from '../../storage/user-journey';
 import { SettingContext } from '../context';
-import Feedback from './feedback/Feedback';
 import Help from './help/Help';
 import OperationBar from './operation-bar/OperationBar';
 import { Search } from './search/Search';
@@ -62,6 +61,12 @@ const App: React.FC = () => {
         }
     }, [setting.theme]);
 
+    useEffect(() => {
+        const root = document.documentElement;
+        root.style.setProperty('--font-family', FONT_FAMILY_VALUES[setting.fontFamily]);
+        root.style.setProperty('--main-font-size', `${setting.fontSize}px`);
+    }, [setting.fontFamily, setting.fontSize]);
+
     const handleCancel = () => {
         setIsModalOpen(false);
     };
@@ -92,11 +97,6 @@ const App: React.FC = () => {
                 </div>
                 <OperationBar />
                 <TabMasterTree onInit={showNewThings} />
-                <div id="footer">
-                    <span className={'footer-item'}>
-                        <Feedback />
-                    </span>
-                </div>
                 <Help />
                 <Modal
                     title={`🎉 ${browser.i18n.getMessage('welcomeTitle')}`}

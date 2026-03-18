@@ -10,12 +10,26 @@ interface Snapshot {
 
 export type ThemeType = 'light' | 'dark' | 'auto';
 
+export type FontFamily = 'system' | 'serif' | 'monospace';
+
+export const FONT_FAMILY_VALUES: Record<FontFamily, string> = {
+    system: '-apple-system, blinkmacsystemfont, "Segoe UI", system-ui, sans-serif',
+    serif: 'Georgia, "Times New Roman", Times, serif',
+    monospace: '"SF Mono", "Fira Code", "Cascadia Code", Menlo, Consolas, monospace',
+};
+
+export const FONT_SIZE_MIN = 11;
+export const FONT_SIZE_MAX = 18;
+export const FONT_SIZE_DEFAULT = 13;
+
 export interface Setting {
     id: number;
     theme: ThemeType;
     display: 'popup' | 'tab' | 'embedded-sidebar';
     autoScrollToActiveTab: boolean;
     createNewTabByLevel: boolean;
+    fontFamily: FontFamily;
+    fontSize: number;
 }
 
 export const DEFAULT_SETTING: Setting = {
@@ -24,6 +38,8 @@ export const DEFAULT_SETTING: Setting = {
     display: 'popup',
     autoScrollToActiveTab: false,
     createNewTabByLevel: false,
+    fontFamily: 'system',
+    fontSize: FONT_SIZE_DEFAULT,
 };
 
 export class TabMasterDB extends Dexie {
