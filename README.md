@@ -19,9 +19,8 @@ With Tree Linker, even if you have a large number of tabs and windows, you can m
 ![1  dnd](https://user-images.githubusercontent.com/7566103/226508940-040c6557-28a9-4bee-94ae-0869a7d18695.gif)
 
 ## 📦 Install
-- [Chrome Web Store](https://chrome.google.com/webstore/detail/link-map/jappgmhllahigjolfpgbjdfhciabdnde)
-- [Edge Addon](https://microsoftedge.microsoft.com/addons/detail/link-map/penpmngcolockpbmeeafkmbefjijbaej)
 - Download from [Release](https://github.com/SeanPedersen/TreeLinker/releases), unzip the `.zip` file, load the directory into Chrome/Edge from the extension/addon page.
+- Upcoming: Chrome and Edge Extension Stores
 
 ## 🔒 About Permission Usage
 - tabs: For supporting the main feature, which is tab management.
