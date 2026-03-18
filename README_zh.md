@@ -1,6 +1,6 @@
 # ⭐️ Tree Linker
 
-语言：[English](https://github.com/GarinZ/link-map/blob/release/README.md) | [中文](https://github.com/GarinZ/link-map/blob/release/README_zh.md)
+语言：[English](https://github.com/SeanPedersen/TreeLinker/blob/release/README.md) | [中文](https://github.com/SeanPedersen/TreeLinker/blob/release/README_zh.md)
 
 <img src="https://user-images.githubusercontent.com/7566103/226504871-4b8feefa-9cd0-48e1-bf70-e20e866b3ed4.png" width="500">
 
@@ -21,7 +21,7 @@ Tree Linker是一个浏览器标签侧边栏，更适用于重度信息消费者
 ## 📦 安装
 - [Chrome商店](https://chrome.google.com/webstore/detail/link-map/jappgmhllahigjolfpgbjdfhciabdnde)
 - [Edge Addon](https://microsoftedge.microsoft.com/addons/detail/link-map/penpmngcolockpbmeeafkmbefjijbaej)
-- 从[Release](https://github.com/GarinZ/link-map/releases)下载`.zip`文件，打开开发模式，解压zip文件，将解压后的文件夹加载到浏览器中。
+- 从[Release](https://github.com/SeanPedersen/TreeLinker/releases)下载`.zip`文件，打开开发模式，解压zip文件，将解压后的文件夹加载到浏览器中。
 
 ## 🔒 关于的权限使用
 - tabs: 用于支持主要功能，即浏览器标签管理。
@@ -32,6 +32,9 @@ Tree Linker是一个浏览器标签侧边栏，更适用于重度信息消费者
 - system.display: 用于初始化树形视图的位置和宽度/高度。
 - favicon: 用于初始化那些树中的从未访问过的Tab节点的图标。
 
+## 致谢
+
+Fork 自 [Link Map](https://github.com/GarinZ/link-map)，由 [GarinZ](https://github.com/GarinZ) 开发。
+
 ## 有问题或需要帮助？
-- [issue](https://github.com/GarinZ/link-map/issues)
-- [Tree Linker的开发路线图](https://garin-public.notion.site/Link-Map-0f228ba1e9e541aca685ab0622269e09)
+- [issue](https://github.com/SeanPedersen/TreeLinker/issues)

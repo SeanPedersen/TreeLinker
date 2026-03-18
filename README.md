@@ -1,5 +1,5 @@
 # ⭐️ Tree Linker
-Language: [English](https://github.com/GarinZ/link-map/blob/release/README.md) | [中文](https://github.com/GarinZ/link-map/blob/release/README_zh.md)
+Language: [English](https://github.com/SeanPedersen/TreeLinker/blob/release/README.md) | [中文](https://github.com/SeanPedersen/TreeLinker/blob/release/README_zh.md)
 
 <img src="https://user-images.githubusercontent.com/7566103/226504871-4b8feefa-9cd0-48e1-bf70-e20e866b3ed4.png" width="500">
 
@@ -21,7 +21,7 @@ With Tree Linker, even if you have a large number of tabs and windows, you can m
 ## 📦 Install
 - [Chrome Web Store](https://chrome.google.com/webstore/detail/link-map/jappgmhllahigjolfpgbjdfhciabdnde)
 - [Edge Addon](https://microsoftedge.microsoft.com/addons/detail/link-map/penpmngcolockpbmeeafkmbefjijbaej)
-- Download from [Release](https://github.com/GarinZ/link-map/releases), unzip the `.zip` file, load the directory into Chrome/Edge from the extension/addon page.
+- Download from [Release](https://github.com/SeanPedersen/TreeLinker/releases), unzip the `.zip` file, load the directory into Chrome/Edge from the extension/addon page.
 
 ## 🔒 About Permission Usage
 - tabs: For supporting the main feature, which is tab management.
@@ -32,6 +32,9 @@ With Tree Linker, even if you have a large number of tabs and windows, you can m
 - system.display: To initialize the tree view position and width/height.
 - favicon: To initialize icon for tab node which has never been visited.
 
+## Credits
+
+Forked from [Link Map](https://github.com/GarinZ/link-map) by [GarinZ](https://github.com/GarinZ).
+
 ## Have problems or need help?
-- [issue](https://github.com/GarinZ/link-map/issues)
-- [Tree Linker's RoadMap](https://garin-public.notion.site/Link-Map-0f228ba1e9e541aca685ab0622269e09)
+- [issue](https://github.com/SeanPedersen/TreeLinker/issues)

@@ -9,10 +9,10 @@
     "homepage": "https://linkmap.cc",
     "repository": {
         "type": "git",
-        "url": "git+ssh://git@github.com:GarinZ/link-map.git"
+        "url": "git+ssh://git@github.com:SeanPedersen/TreeLinker.git"
     },
     "bugs": {
-        "url": "https://garin@linkmap.cc"
+        "url": "https://github.com/SeanPedersen/TreeLinker/issues"
     },
     "engines": {
         "node": "^20.11.0 || ^22.0.0"
