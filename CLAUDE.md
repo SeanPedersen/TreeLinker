@@ -17,7 +17,7 @@ pnpm lint           # ESLint + Stylelint
 pnpm lint:es        # ESLint only (.ts/.tsx/.js)
 pnpm lint:style     # Stylelint only (.css/.less/.scss)
 pnpm test-ext       # Jest unit tests
-pnpm clean          # Remove build artifacts (dist/ dir)
+pnpm clean          # Remove build artifacts (extension/ dir)
 pnpm package        # Package for distribution
 ```
 
@@ -25,17 +25,13 @@ Requires Node v22+ (see `.nvmrc`). Package manager is **pnpm** (enforced).
 
 ## Architecture
 
-### Multi-page extension with 4 entry points + background service worker
+### Extension entry points + background service worker
 
 | Entry | Path | Description |
 |-------|------|-------------|
 | **Background** | `src/background/index.ts` | Service worker — listens to tab/window events, no React |
-| **Tree** (main UI) | `src/tree/index.tsx` | Sidebar tree view for tab management |
-| **Popup** | `src/popup/index.tsx` | Extension icon click action |
-| **Options** | `src/options/index.tsx` | Settings page |
-| **Import** | `src/import/index.tsx` | Data import utility |
-
-Content scripts are declared in `src/manifest.ts` (currently commented out).
+| **Tree** (main UI) | `src/tree/index.tsx` | Side Panel — primary tree view for tab management |
+| **Popup** | `src/popup/index.tsx` | Extension icon click action (minimal) |
 
 ### Data flow
 
@@ -57,7 +53,7 @@ Content scripts are declared in `src/manifest.ts` (currently commented out).
 
 Features are organized under `src/tree/features/` — each is self-contained:
 - `tab-master-tree/` — core tree logic, node renderers, plugins, templates
-- `search/`, `settings/`, `operation-bar/`, `shortcuts/`, `tutorial/`, `help/`, `login/`, `feedback/`
+- `search/`, `settings/`, `operation-bar/`, `shortcuts/`, `tutorial/`, `help/`, `login/`
 
 ### Build system
 
@@ -77,6 +73,5 @@ Global defines available in code: `__ENV__`, `__VERSION__`, `__TARGET__`.
 - TypeScript strict mode with decorators enabled
 - JSX transform: `react-jsx` (no `import React` needed)
 - jQuery is set up globally via `src/jquery-global.ts` (imported at top of entry points that need it)
-- Pre-commit hook runs lint-staged (ESLint, stylelint, prettier, format-imports)
 - Prettier config: `@yutengjing/prettier-config`
 - ESLint config: `@yutengjing/eslint-config-react`
