@@ -62,9 +62,8 @@ const App: React.FC = () => {
     }, [setting.theme]);
 
     useEffect(() => {
-        const root = document.documentElement;
-        root.style.setProperty('--font-family', FONT_FAMILY_VALUES[setting.fontFamily]);
-        root.style.setProperty('--main-font-size', `${setting.fontSize}px`);
+        document.body.style.setProperty('--font-family', FONT_FAMILY_VALUES[setting.fontFamily]);
+        document.body.style.setProperty('--main-font-size', `${setting.fontSize}px`);
     }, [setting.fontFamily, setting.fontSize]);
 
     const handleCancel = () => {
