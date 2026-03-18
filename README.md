@@ -1,13 +1,13 @@
-# ⭐️ Link Map
+# ⭐️ Tree Linker
 Language: [English](https://github.com/GarinZ/link-map/blob/release/README.md) | [中文](https://github.com/GarinZ/link-map/blob/release/README_zh.md)
 
 <img src="https://user-images.githubusercontent.com/7566103/226504871-4b8feefa-9cd0-48e1-bf70-e20e866b3ed4.png" width="500">
 
 > Profession Browser Tab Manager for Chrome and Edge
 
-## 💡 What is Link Map?
-Link Map is a browser tab sidebar that is designed for heavy information consumers.  
-With Link Map, even if you have a large number of tabs and windows, you can manage and classify them in a logical and clear way using the tree view structure, forming your own link collection.
+## 💡 What is Tree Linker?
+Tree Linker is a browser tab sidebar that is designed for heavy information consumers.
+With Tree Linker, even if you have a large number of tabs and windows, you can manage and classify them in a logical and clear way using the tree view structure, forming your own link collection.
 
 ## :sparkles: Features
 
@@ -34,4 +34,4 @@ With Link Map, even if you have a large number of tabs and windows, you can mana
 
 ## Have problems or need help?
 - [issue](https://github.com/GarinZ/link-map/issues)
-- [LinkMap's RoadMap](https://garin-public.notion.site/Link-Map-0f228ba1e9e541aca685ab0622269e09)
+- [Tree Linker's RoadMap](https://garin-public.notion.site/Link-Map-0f228ba1e9e541aca685ab0622269e09)

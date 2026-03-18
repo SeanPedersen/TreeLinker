@@ -1,6 +1,6 @@
 {
     "extDesc": {
-        "message": "⭐Link Map - 专业标签管理工具，构建自己的链接收藏夹"
+        "message": "⭐Tree Linker - 专业标签管理工具，构建自己的链接收藏夹"
     },
     "search": {
         "message": "搜索"
@@ -11,10 +11,10 @@
     "settingsImportExport": {
         "message": "备份和恢复"
     },
-    "exportLinkMapData": {
+    "exportTreeLinkerData": {
         "message": "导出数据"
     },
-    "importLinkMapData": {
+    "importTreeLinkerData": {
         "message": "导入数据"
     },
     "importTabOutlinerData": {
@@ -24,7 +24,7 @@
         "message": "反馈"
     },
     "feedbackDesc": {
-        "message": "反馈关于LinkMap的建议/问题"
+        "message": "反馈关于Tree Linker的建议/问题"
     },
     "ctxMenuEdit": {
         "message": "编辑"
@@ -60,19 +60,19 @@
         "message": "作为下一个节点(仅对笔记节点生效)"
     },
     "importPageInfo": {
-        "message": "根据需要将下面的节点拖拽到LinkMap中就可以完成数据导入"
+        "message": "根据需要将下面的节点拖拽到Tree Linker中就可以完成数据导入"
     },
     "importPageExportTime": {
         "message": "备份时间"
     },
     "welcomeTitle": {
-        "message": "欢迎使用Link Map！"
+        "message": "欢迎使用Tree Linker！"
     },
     "welcomeIntro": {
-        "message": "Link Map是一个浏览器扩展，用来帮助你管理你的标签和构建链接收藏。"
+        "message": "Tree Linker是一个浏览器扩展，用来帮助你管理你的标签和构建链接收藏。"
     },
     "welcomeIntro2": {
-        "message": "现在Link Map还处于早期版本，有任何问题可以联系我们，更多新功能正在开发中。"
+        "message": "现在Tree Linker还处于早期版本，有任何问题可以联系我们，更多新功能正在开发中。"
     },
     "welcomeIntro3": {
         "message": "现在我们准备了一些小技巧来帮助你快速上手。"
@@ -149,8 +149,8 @@
     "fontSize": {
         "message": "字号"
     },
-    "commandTriggerLinkMap": {
-        "message": "打开Link Map"
+    "commandTriggerTreeLinker": {
+        "message": "打开Tree Linker"
     },
     "commandUnset": {
         "message": "未设置"
@@ -180,10 +180,10 @@
         "message": "快捷键"
     },
     "updateNoteTitle": {
-        "message": "Link Map感觉自己更强大了！"
+        "message": "Tree Linker感觉自己更强大了！"
     },
     "updateNoteContent": {
-        "message": "在v1.0.10版本中，增加了一些小的改进，可以更细粒度的控制Link Map的行为。如果你感兴趣，只需查看树中的第一个节点来获取细节"
+        "message": "在v1.0.10版本中，增加了一些小的改进，可以更细粒度的控制Tree Linker的行为。如果你感兴趣，只需查看树中的第一个节点来获取细节"
     },
     "updateTutorialNode": {
         "message": "v1.0.10中的新功能"
@@ -227,14 +227,14 @@
     "updateTutorialFeature3Desc2": {
         "message": "它仍然不完美，有时会有问题，我将继续优化"
     },
-    "reviewLinkMap": {
-        "message": "Link Map有没有帮到你或者有什么想吐槽的？"
+    "reviewTreeLinker": {
+        "message": "Tree Linker有没有帮到你或者有什么想吐槽的？"
     },
-    "reviewLinkMapDesc": {
+    "reviewTreeLinkerDesc": {
         "message": "双击这个节点"
     },
-    "reviewLinkMapDesc2": {
-        "message": "给Link Map评分"
+    "reviewTreeLinkerDesc2": {
+        "message": "给Tree Linker评分"
     },
     "locate": {
         "message": "定位标签节点"

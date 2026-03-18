@@ -1,6 +1,6 @@
 {
-    "name": "link-map",
-    "displayName": "Link Map",
+    "name": "tree-linker",
+    "displayName": "Tree Linker",
     "version": "1.0.11",
     "browserslist": "Chrome >= 96",
     "description": "Vertical Tabs Sidebar, But In Tree Structure",

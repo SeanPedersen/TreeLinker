@@ -3,7 +3,7 @@ import type { ManifestV3Export } from '@crxjs/vite-plugin';
 import pkg from '../package.json';
 
 export const commandKeyMap = {
-    openLinkMap: 'openLinkMap',
+    openTreeLinker: 'openTreeLinker',
 };
 
 const manifest: ManifestV3Export = {
@@ -32,12 +32,12 @@ const manifest: ManifestV3Export = {
     },
     default_locale: 'en',
     commands: {
-        [commandKeyMap.openLinkMap]: {
+        [commandKeyMap.openTreeLinker]: {
             suggested_key: {
                 default: 'Shift+Ctrl+L',
                 mac: 'Shift+Command+L',
             },
-            description: '__MSG_commandTriggerLinkMap__',
+            description: '__MSG_commandTriggerTreeLinker__',
         },
     },
     action: {

@@ -51,7 +51,7 @@ const handleExport = () => {
         version: __VERSION__,
         exportTime: getFormattedData(),
     };
-    const fileName = `link-map-export-${getFormattedData()}.json`;
+    const fileName = `tree-linker-export-${getFormattedData()}.json`;
     downloadJsonWithExtensionAPI(exportJsonData, fileName).then(() => {
         message.success('Export successfully');
     });
@@ -69,7 +69,7 @@ const Settings = () => {
         setIsModalOpen(false);
     };
 
-    const handleLinkMapImport = async (file: RcFile) => {
+    const handleTreeLinkerImport = async (file: RcFile) => {
         try {
             const fileContent = await file.text();
             const jsonData: ExportJsonData = JSON.parse(fileContent);
@@ -78,7 +78,7 @@ const Settings = () => {
             message.success('Import successfully');
         } catch (error) {
             log.error('import error:', error);
-            message.error('Failed to import Link Map data.');
+            message.error('Failed to import Tree Linker data.');
         }
         hideModal();
         return '';
@@ -198,18 +198,18 @@ const Settings = () => {
                     </div>
                     <div className="settings-item">
                         <Button className="setting-item-btn" onClick={handleExport}>
-                            {browser.i18n.getMessage('exportLinkMapData')}
+                            {browser.i18n.getMessage('exportTreeLinkerData')}
                         </Button>
                     </div>
                     <div className="settings-item">
                         <Upload
                             name={'file'}
-                            action={handleLinkMapImport}
+                            action={handleTreeLinkerImport}
                             fileList={[]}
                             accept={'.json'}
                         >
                             <Button className="setting-item-btn">
-                                {browser.i18n.getMessage('importLinkMapData')}
+                                {browser.i18n.getMessage('importTreeLinkerData')}
                             </Button>
                         </Upload>
                     </div>

@@ -93,8 +93,8 @@ export const ShortcutMap: IShortcutMap = {
             tmTree.tree.expandAll(false);
         },
     },
-    activeLinkMap: {
-        name: browser.i18n.getMessage('commandTriggerLinkMap'),
+    activeTreeLinker: {
+        name: browser.i18n.getMessage('commandTriggerTreeLinker'),
         key: [getOS() === 'MacOS' ? 'Shift + Command + L' : 'Shift + Ctrl + L'],
         type: 'Basic Operation',
         index: 0,
@@ -233,13 +233,13 @@ const keyDisplayNameByOS = (key: string) => {
 export const getShortCutMap = async () => {
     const shortcuts = await browser.commands.getAll();
     const activeShortCut = shortcuts.find(
-        (shortcut) => shortcut.name === commandKeyMap.openLinkMap,
+        (shortcut) => shortcut.name === commandKeyMap.openTreeLinker,
     )!.shortcut;
     log.debug('activeShortCut', activeShortCut);
     const key = activeShortCut
         ? keyDisplayNameByOS(activeShortCut)
         : browser.i18n.getMessage('commandUnset');
-    ShortcutMap.activeLinkMap.key = [key];
+    ShortcutMap.activeTreeLinker.key = [key];
     return ShortcutMap;
 };
 

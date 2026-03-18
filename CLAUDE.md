@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## What is Link Map?
+## What is Tree Linker?
 
 A Chrome/Edge browser extension (Manifest V3) that visualizes and manages open tabs as a tree structure. Built with React 18 + TypeScript, using jQuery Fancytree for the tree UI and Dexie (IndexedDB) for persistence.
 

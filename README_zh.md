@@ -1,4 +1,4 @@
-# ⭐️ Link Map
+# ⭐️ Tree Linker
 
 语言：[English](https://github.com/GarinZ/link-map/blob/release/README.md) | [中文](https://github.com/GarinZ/link-map/blob/release/README_zh.md)
 
@@ -6,9 +6,9 @@
 
 > 专业的浏览器标签管理器
 
-## 💡 Link Map是什么？
-Link Map是一个浏览器标签侧边栏，更适用于重度信息消费者。
-在Link Map中即使你有大量的Tab和Window，仍然可以通过树形视图进行归类和整理保持清晰的逻辑性，再进一步的构建自己的链接收藏夹
+## 💡 Tree Linker是什么？
+Tree Linker是一个浏览器标签侧边栏，更适用于重度信息消费者。
+在Tree Linker中即使你有大量的Tab和Window，仍然可以通过树形视图进行归类和整理保持清晰的逻辑性，再进一步的构建自己的链接收藏夹
 
 ## ✨ 主要功能
 - 🌲 树形垂直标签侧边栏：更多层级并且可以迅速通过拖拽完成更多的Tab操作
@@ -34,4 +34,4 @@ Link Map是一个浏览器标签侧边栏，更适用于重度信息消费者。
 
 ## 有问题或需要帮助？
 - [issue](https://github.com/GarinZ/link-map/issues)
-- [LinkMap的开发路线图](https://garin-public.notion.site/Link-Map-0f228ba1e9e541aca685ab0622269e09)
+- [Tree Linker的开发路线图](https://garin-public.notion.site/Link-Map-0f228ba1e9e541aca685ab0622269e09)

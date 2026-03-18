@@ -127,7 +127,7 @@ try {
     });
 
     browser.commands.onCommand.addListener(async (command) => {
-        if (command === 'openLinkMap') {
+        if (command === 'openTreeLinker') {
             const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
             if (activeTab?.windowId) {
                 chrome.sidePanel.open({ windowId: activeTab.windowId });

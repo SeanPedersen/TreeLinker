@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-Thank you for submitting an issue for Link Map. To help us better understand your feedback, please fill out the following template(If you think it's too complicated, just write down whatever you want):
+Thank you for submitting an issue for Tree Linker. To help us better understand your feedback, please fill out the following template(If you think it's too complicated, just write down whatever you want):
 
 ## Description
 [Describe the issue or feedback you have. Be as specific as possible and provide any relevant details.
