@@ -1,9 +1,9 @@
 # ⭐️ Tree Linker
 Language: [English](https://github.com/SeanPedersen/TreeLinker/blob/main/README.md) | [中文](https://github.com/SeanPedersen/TreeLinker/blob/main/README_zh.md)
 
-<img src="https://user-images.githubusercontent.com/7566103/226504871-4b8feefa-9cd0-48e1-bf70-e20e866b3ed4.png" width="500">
+> Browser Tree Tab Manager for Chrome and Edge
 
-> Profession Browser Tab Manager for Chrome and Edge
+<img src="https://user-images.githubusercontent.com/7566103/226504871-4b8feefa-9cd0-48e1-bf70-e20e866b3ed4.png" width="500">
 
 ## 💡 What is Tree Linker?
 Tree Linker is a browser tab sidebar that is designed for heavy information consumers.
