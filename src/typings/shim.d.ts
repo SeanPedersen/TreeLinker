@@ -1,10 +1,6 @@
 import type { ProtocolWithReturn } from '@garinz/webext-bridge';
 import { Tabs, Windows } from 'webextension-polyfill';
 
-import { TabOutliner } from '../import/parse-tab-outliner';
-import { ExportJsonData } from '../tree/features/settings/Settings';
-import { TreeData, TreeNode } from '../tree/features/tab-master-tree/nodes/nodes';
-
 declare global {
     namespace chrome.sidePanel {
         interface OpenOptions {
@@ -53,8 +49,6 @@ declare module '@garinz/webext-bridge' {
         'remove-window': { windowId: number };
         'window-focus': { windowId: number };
         'replace-tab': { addedTabId: number; removedTabId: number };
-        'import-data': ExportJsonData;
-        'import-tabOutliner-data': TabOutliner.ExportData;
         'tree-ready': { windowId: number; tabId: number };
     }
 }

@@ -28,10 +28,5 @@ export default defineConfig(({ mode }) => ({
     build: {
         outDir: 'extension',
         target: 'chrome96',
-        rollupOptions: {
-            input: {
-                import: resolve(__dirname, 'src/import/import.html'),
-            },
-        },
     },
 }));

@@ -1,16 +1,19 @@
-import { sendMessage } from '@garinz/webext-bridge';
 import { Button, message, Modal, Select, Slider, Upload } from 'antd';
 import type { RcFile } from 'antd/es/upload/interface';
 import log from 'loglevel';
 import { useContext, useState } from 'react';
 import browser from 'webextension-polyfill';
 
+import { parseTabOutlinerData } from '../../../import/parse-tab-outliner';
+import type { TabOutliner } from '../../../import/parse-tab-outliner';
 import type { FontFamily, ThemeType } from '../../../storage/idb';
 import { FONT_SIZE_MAX, FONT_SIZE_MIN } from '../../../storage/idb';
-import { downloadJsonWithExtensionAPI, getFormattedData } from '../../../utils';
+import { downloadJsonWithExtensionAPI, generateKeyByTime, getFormattedData } from '../../../utils';
 import { SettingContext } from '../../context';
 import store from '../store';
 import type { TreeData, TreeNode } from '../tab-master-tree/nodes/nodes';
+import type { TabData } from '../tab-master-tree/nodes/tab-node-operations';
+import { NodeUtils } from '../tab-master-tree/nodes/utils';
 
 import './settings.less';
 
@@ -19,6 +22,27 @@ export interface ExportJsonData {
     version?: string;
     exportTime?: string;
 }
+
+const resetAndImport = (data: ExportJsonData) => {
+    NodeUtils.traverse(data.rawData, (node) => {
+        node.key = `${generateKeyByTime()}-${node.key}`;
+        node.active = false;
+        const nodeData = node.data;
+        if (nodeData.nodeType === 'tab') {
+            node.data.closed = true;
+            (nodeData as TabData).tabActive = false;
+        } else if (nodeData.nodeType === 'window') {
+            node.data.closed = true;
+        }
+    });
+
+    const tree = store.tree;
+    if (!tree) return;
+    const rootNode = tree.getRootNode();
+    data.rawData.forEach((nodeData) => {
+        rootNode.addNode(nodeData, 'child');
+    });
+};
 
 const handleExport = () => {
     const rawData = store.tree?.toDict();
@@ -46,27 +70,39 @@ const Settings = () => {
     };
 
     const handleLinkMapImport = async (file: RcFile) => {
-        const fileContent = await file.text();
-        const jsonData: ExportJsonData = JSON.parse(fileContent);
-        // TODO: 这里需要做一些数据校验
-        log.debug('import-data', jsonData);
-        await sendMessage('import-data', jsonData);
+        try {
+            const fileContent = await file.text();
+            const jsonData: ExportJsonData = JSON.parse(fileContent);
+            log.debug('import-data', jsonData);
+            resetAndImport(jsonData);
+            message.success('Import successfully');
+        } catch (error) {
+            log.error('import error:', error);
+            message.error('Failed to import Link Map data.');
+        }
         hideModal();
         return '';
     };
 
     const handleTabOutlinerImport = async (file: RcFile) => {
-        const fileContent = await file.text();
-        const jsonData = JSON.parse(fileContent);
-        if (
-            !Array.isArray(jsonData) ||
-            !jsonData[jsonData.length - 1].type ||
-            jsonData[jsonData.length - 1].type !== 11111
-        ) {
-            message.error('Invalid Tab Outliner data.');
-            return '';
+        try {
+            const fileContent = await file.text();
+            const jsonData = JSON.parse(fileContent);
+            if (
+                !Array.isArray(jsonData) ||
+                !jsonData[jsonData.length - 1].type ||
+                jsonData[jsonData.length - 1].type !== 11111
+            ) {
+                message.error('Invalid Tab Outliner data.');
+                return '';
+            }
+            const treeNodeDataArr = parseTabOutlinerData(jsonData as TabOutliner.ExportData);
+            resetAndImport({ rawData: treeNodeDataArr });
+            message.success('Import successfully');
+        } catch (error) {
+            log.error('import error:', error);
+            message.error('Failed to import Tab Outliner data.');
         }
-        await sendMessage('import-tabOutliner-data', jsonData);
         hideModal();
         return '';
     };
