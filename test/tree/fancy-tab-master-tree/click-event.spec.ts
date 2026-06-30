@@ -256,12 +256,34 @@ describe('db click', () => {
         console.log(toAsciiTree(tree.toDict(), ['expanded'], ['closed', 'windowId']));
         await FancyTabMasterTree.onDbClick(firstNode);
         console.log(toAsciiTree(tree.toDict(), ['expanded'], ['closed', 'windowId']));
-        expect(browser.tabs.create.calledOnceWith({ url, index, windowId })).toBeTruthy();
+        expect(
+            browser.tabs.create.calledOnceWith({ url, index, windowId, pinned: false }),
+        ).toBeTruthy();
         expect(firstNode.data.closed).toBe(false);
         expect(firstNode.key).toBe('13');
         // eslint-disable-next-line unicorn/consistent-destructuring
         expect(firstNode.data.id).toBe(13);
         expect(secondNode.data.index).toBe(1);
+    });
+
+    it('db click on pinned closed tab node, with opened window node', async () => {
+        const treeData = new MockTreeBuilder().addTabChildren(2).build();
+        const tabMasterTree = initTabMasterTree(treeData);
+        const tree = tabMasterTree.tree;
+        const firstNode = tree.getNodeByKey(`${11}`);
+        const secondNode = tree.getNodeByKey(`${12}`);
+        TabNodeOperations.updatePartial(firstNode, { closed: true, index: 0, pinned: true });
+        TabNodeOperations.updatePartial(secondNode, { closed: false, index: 0 });
+        const { url, index, windowId } = firstNode.data;
+        mockTabCreate(tabMasterTree, 13);
+
+        await FancyTabMasterTree.onDbClick(firstNode);
+
+        expect(
+            browser.tabs.create.calledOnceWith({ url, index, windowId, pinned: true }),
+        ).toBeTruthy();
+        expect(firstNode.data.closed).toBe(false);
+        expect(firstNode.data.pinned).toBe(true);
     });
 
     it('db click on closed tab node, with closed window', async () => {
@@ -338,6 +360,7 @@ describe('db click', () => {
         TabNodeOperations.updatePartial(firstTabNode, { closed: true });
         TabNodeOperations.updatePartial(secondTabNode, { closed: true });
         const modifiedWindowId = 2;
+        TabNodeOperations.updatePartial(firstTabNode, { pinned: true });
         browser.windows.create.returns(
             Promise.resolve({
                 id: modifiedWindowId,
@@ -349,6 +372,8 @@ describe('db click', () => {
         );
         await FancyTabMasterTree.onDbClick(tree.getNodeByKey(`${1}`));
         expect(browser.windows.create.callCount).toBe(1);
+        expect(browser.tabs.update.callCount).toBe(1);
+        expect(browser.tabs.update.getCall(0).calledWith(21, { pinned: true })).toBe(true);
         const createWindowArg = browser.windows.create.getCall(0).args[0];
         Object.entries(createWindowArg).forEach(([key, value]) => {
             if (key === 'url')
@@ -362,6 +387,7 @@ describe('db click', () => {
         expect(firstTabNode.key).toBe('21');
         expect(firstTabNode.data.id).toBe(21);
         expect(firstTabNode.data.windowId).toBe(modifiedWindowId);
+        expect(firstTabNode.data.pinned).toBe(true);
         expect(secondTabNode.data.closed).toBe(false);
         expect(secondTabNode.key).toBe('22');
         expect(secondTabNode.data.id).toBe(22);

@@ -410,8 +410,14 @@ FancyTabMasterTree.onDbClick = async (targetNode: FancytreeNode): Promise<void> 
                         (node) => node.data.id === prevOpenedTabNode.data.id,
                     ) + 1;
             }
-            const newTab = await browser.tabs.create({ url, windowId: windowNode.data.id, index });
-            TabNodeOperations.updatePartial(targetNode, { ...newTab, closed: false });
+            const pinned = Boolean(targetNode.data.pinned);
+            const newTab = await browser.tabs.create({
+                url,
+                windowId: windowNode.data.id,
+                index,
+                pinned,
+            });
+            TabNodeOperations.updatePartial(targetNode, { ...newTab, pinned, closed: false });
             WindowNodeOperations.updateWindowStatus(windowNode);
         }
     } else if (targetNode.data.nodeType === 'window') {
@@ -461,12 +467,17 @@ FancyTabMasterTree.reopenWindowNode = async (
     const newWindow = await browser.windows.create(
         WindowNodeOperations.buildCreateWindowProps(urlList, windowNode),
     );
+    await restorePinnedTabs(toOpenSubTabNodes, newWindow.tabs ?? []);
     // 2. 更新windowNode状态并更新其子节点
     WindowNodeOperations.updatePartial(windowNode, { ...newWindow, closed: false });
     if (needUpdateTabProps) {
         WindowNodeOperations.updateSubTabWindowId(windowNode);
         toOpenSubTabNodes.forEach((tabNode, index) => {
-            TabNodeOperations.updatePartial(tabNode, { ...newWindow.tabs![index], closed: false });
+            TabNodeOperations.updatePartial(tabNode, {
+                ...newWindow.tabs![index],
+                pinned: Boolean(tabNode.data.pinned),
+                closed: false,
+            });
         });
     }
     return newWindow;
@@ -479,10 +490,15 @@ FancyTabMasterTree.createWindowNodeAsParent = async (
     // 1. 创建window和windowNode
     const { url } = tabNode.data;
     const { windowNode, window } = await FancyTabMasterTree.openWindow(tabNode, 'before', url);
+    await restorePinnedTabs([tabNode], window.tabs ?? []);
     // 2. 将tabNode挂到windowNode下
     tabNode.moveTo(windowNode, 'firstChild');
     // 3. 更新TabNode属性和子tabNode的windowId
-    TabNodeOperations.updatePartial(tabNode, { ...window.tabs![0], closed: false });
+    TabNodeOperations.updatePartial(tabNode, {
+        ...window.tabs![0],
+        pinned: Boolean(tabNode.data.pinned),
+        closed: false,
+    });
     WindowNodeOperations.updateSubTabWindowId(windowNode);
     return { windowNode, window };
 };
@@ -590,4 +606,14 @@ function getOperationMode(targetNode: FancytreeNode, mode: OperationTarget = 'au
         closeMode = targetNode.expanded ? 'item' : 'all';
     }
     return closeMode;
+}
+
+async function restorePinnedTabs(tabNodes: FancytreeNode[], restoredTabs: Tabs.Tab[]) {
+    await Promise.all(
+        tabNodes.map(async (tabNode, index) => {
+            const restoredTab = restoredTabs[index];
+            if (!tabNode.data.pinned || !restoredTab?.id) return;
+            await browser.tabs.update(restoredTab.id, { pinned: true });
+        }),
+    );
 }

@@ -4,9 +4,10 @@ module.exports = {
     transform: { '\\.(mjs|jsx|js|ts|tsx)$': 'ts-jest' },
     moduleDirectories: ['node_modules', 'src'],
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'mjs'],
-    setupFilesAfterSetup: ['./jest.setup.js'],
+    setupFilesAfterEnv: ['./jest.setup.js'],
     moduleNameMapper: {
         '\\.(css|less|scss)$': 'identity-obj-proxy',
+        '^dexie$': '<rootDir>/node_modules/dexie/dist/dexie.js',
         '^@/(.*)$': '<rootDir>/src/$1',
     },
     transformIgnorePatterns: [
